@@ -50,25 +50,30 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: controller.products.length,
             itemBuilder: (BuildContext context, int index) {
               final product = controller.products[index];
-              final isInCart = cartController.cartItems.any(
-                (item) => item.id == product.id,
-              );
-              return ListTile(
-                leading: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Image.network(product.image),
-                ),
-                title: Text(product.title, overflow: TextOverflow.ellipsis),
-                subtitle: Text(product.price.toString()),
-                trailing: isInCart
-                    ? AddSubItem(id: product.id)
-                    : InkWell(
-                        onTap: () {
-                          cartController.addItem(product.id);
-                        },
-                        child: const AddItemButton(),
-                      ),
-              );
+
+              return Obx(() {
+                final isInCart = cartController.cartItems.any(
+                      (item) => item.id == product.id,
+                );
+
+                return ListTile(
+                  leading: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Image.network(product.image),
+                  ),
+                  title: Text(product.title, overflow: TextOverflow.ellipsis),
+                  subtitle: Text(product.price.toString()),
+                  trailing: isInCart
+                      ? AddSubItem(id: product.id)
+                      : InkWell(
+                    onTap: () {
+                      cartController.addItem(product.id);
+                    },
+                    child: const AddItemButton(),
+                  ),
+                );
+              });
+
             },
           ),
         ),
