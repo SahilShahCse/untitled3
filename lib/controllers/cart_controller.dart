@@ -19,11 +19,9 @@ class CartController extends GetxController {
     final index = cartItems.indexWhere((item) => item.id == id);
 
     if (index >= 0) {
-      // Item exists: increment count
       cartItems[index].count++;
-      cartItems[index] = cartItems[index]; // Force update
+      cartItems[index] = cartItems[index];
     } else {
-      // Item does not exist: add new
       cartItems.add(CartItemModel.fromMap(product.toMap()));
     }
 
@@ -36,16 +34,18 @@ class CartController extends GetxController {
     final index = cartItems.indexWhere((item) => item.id == id);
 
     if (index >= 0) {
-      if (cartItems[index].count > 1) {
-        // Decrease count if more than 1
-        cartItems[index].count--;
-        cartItems[index] = cartItems[index]; // Force update
+      final item = cartItems[index];
+
+      if (item.count > 1) {
+
+        item.count--;
+        cartItems[index] = item;
+        totalAmount.value -= item.price;
       } else {
-        // Remove item if count is 1
-        totalAmount.value -= cartItems[index].price;
+        totalAmount.value -= item.price;
         cartItems.removeAt(index);
       }
-      totalAmount.value -= cartItems[index].price;
+
       cartItems.refresh();
       print('Removed item $id, Cart: ${cartItems.map((item) => "${item.id}: ${item.count}").toList()}');
     }

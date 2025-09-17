@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 import 'package:untitled3/controllers/cart_controller.dart';
 import 'package:untitled3/controllers/product_controller.dart';
 import 'package:get/get.dart';
 import 'package:untitled3/screens/checkout_screen.dart';
-
 import '../widgets/add_item_button.dart';
 import '../widgets/add_sub_item.dart';
 
@@ -32,18 +30,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Obx(
-        () => cartController.cartItems.isNotEmpty
-            ? FloatingActionButton(
-                onPressed: () {
-                  Get.to(() => CheckoutScreen());
-                },
-                backgroundColor: Colors.teal,
-                child: Icon(CupertinoIcons.cart, color: Colors.white),
-              )
-            : SizedBox(),
-      ),
+      bottomNavigationBar: Obx(() {
+        if (cartController.cartItems.isEmpty) return const SizedBox();
+
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: SafeArea(
+            child: FilledButton(
+              onPressed: () {
+                Get.to(() => CheckoutScreen());
+              },
+              child: Text('Cart'),
+            ),
+          ),
+        );
+      }),
+
       body: SafeArea(
         child: Obx(
           () => ListView.builder(
@@ -53,27 +55,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return Obx(() {
                 final isInCart = cartController.cartItems.any(
-                      (item) => item.id == product.id,
+                  (item) => item.id == product.id,
                 );
 
                 return ListTile(
                   leading: AspectRatio(
                     aspectRatio: 16 / 9,
-                    child: Image.network(product.image),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.network(product.image, fit: BoxFit.cover),
+                    ),
                   ),
-                  title: Text(product.title, overflow: TextOverflow.ellipsis),
-                  subtitle: Text(product.price.toString()),
+                  title: Text(
+                    product.title,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: Text(
+                    "₹${product.price}",
+                    style: const TextStyle(color: Colors.black54),
+                  ),
                   trailing: isInCart
                       ? AddSubItem(id: product.id)
                       : InkWell(
-                    onTap: () {
-                      cartController.addItem(product.id);
-                    },
-                    child: const AddItemButton(),
-                  ),
+                          onTap: () {
+                            cartController.addItem(product.id);
+                          },
+                          child: const AddItemButton(),
+                        ),
                 );
               });
-
             },
           ),
         ),

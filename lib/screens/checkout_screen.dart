@@ -28,7 +28,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               SizedBox(height: 44),
               Obx(() => ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(), // avoid scroll conflict with column
+                physics: NeverScrollableScrollPhysics(),
                 itemCount: controller.cartItems.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ItemCardCheckout(controller.cartItems[index]);
