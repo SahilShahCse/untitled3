@@ -53,12 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
               final isInCart = cartController.cartItems.any(
                 (item) => item.id == product.id,
               );
-              final int count = isInCart
-                  ? cartController.cartItems
-                        .firstWhere((item) => item.id == product.id)
-                        .count
-                  : 0;
-
               return ListTile(
                 leading: AspectRatio(
                   aspectRatio: 16 / 9,

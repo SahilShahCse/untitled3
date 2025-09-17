@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart' show CupertinoIcons;
 import 'package:flutter/material.dart';
 import 'package:untitled3/controllers/cart_controller.dart';
-import 'package:untitled3/models/cart_item_model.dart';
 import 'package:untitled3/widgets/item_card_checkout.dart';
 import 'package:get/get.dart';
 import 'package:untitled3/widgets/texts/big_title.dart';
-import 'package:untitled3/widgets/texts/title_text.dart';
 
 class CheckoutScreen extends StatefulWidget {
   CheckoutScreen({super.key});
