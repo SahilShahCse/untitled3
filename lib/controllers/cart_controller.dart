@@ -42,6 +42,7 @@ class CartController extends GetxController {
         cartItems[index] = cartItems[index]; // Force update
       } else {
         // Remove item if count is 1
+        totalAmount.value -= cartItems[index].price;
         cartItems.removeAt(index);
       }
       totalAmount.value -= cartItems[index].price;

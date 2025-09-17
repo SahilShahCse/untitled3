@@ -26,13 +26,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             children: [
               topBar(),
               SizedBox(height: 44),
-              ListView.builder(
+              Obx(() => ListView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(), // avoid scroll conflict with column
                 itemCount: controller.cartItems.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ItemCardCheckout(controller.cartItems[index]);
                 },
               ),
+              ),
+
               SizedBox(height: 44),
               BigTitle('Bill Summary'),
               Obx(() => Text('Total Amount : ${controller.totalAmount.toString()}'),),
